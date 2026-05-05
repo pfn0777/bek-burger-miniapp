@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>BEK BURGER</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════
+   DARK TEMA (default)
+══════════════════════════════════════════════ */
+[data-theme="dark"] {
+  --bg:          #050505;
+  --bg2:         #0E0E0E;
+  --bg3:         #161616;
+  --bg4:         #1E1E1E;
+  --bg5:         #262626;
+  --gold:        #D4AF37;
+  --gold2:       #F5D76E;
+  --gold3:       #A07D10;
+  --gold-dim:    rgba(212,175,55,0.18);
+  --gold-glow:   rgba(212,175,55,0.35);
+  --text:        #F0EAD6;
+  --text2:       #A89060;
+  --text3:       #6B5030;
+  --border:      rgba(212,175,55,0.12);
+  --border2:     rgba(212,175,55,0.25);
+  --card-bg:     #161616;
+  --card-border: rgba(212,175,55,0.1);
+  --card-hover:  rgba(212,175,55,0.5);
+  --pill-bg:     #1E1E1E;
+  --header-bg:   #050505;
+  --hero-bg:     #0E0E0E;
+  --hero-card:   linear-gradient(135deg,#1A1208 0%,#2A1C0A 100%);
+  --sheet-bg:    #0E0E0E;
+  --tab-bg:      rgba(255,255,255,0.06);
+  --tab-color:   rgba(255,255,255,0.45);
+  --img-bg:      #1E1E1E;
+  --sec-line:    rgba(212,175,55,0.2);
+  --row-border:  rgba(255,255,255,0.04);
+  --red:         #C0392B;
+  --shadow:      0 4px 20px rgba(212,175,55,0.2);
+}
+
+/* ══════════════════════════════════════════════
+   LIGHT TEMA
+══════════════════════════════════════════════ */
+[data-theme="light"] {
+  --bg:          #FFFDF7;
+  --bg2:         #FDF8EE;
+  --bg3:         #F7F0DC;
+  --bg4:         #F0E8CC;
+  --bg5:         #E8DDB8;
+  --gold:        #B8860B;
+  --gold2:       #D4A017;
+  --gold3:       #8B6508;
+  --gold-dim:    rgba(184,134,11,0.12);
+  --gold-glow:   rgba(184,134,11,0.25);
+  --text:        #2C1A00;
+  --text2:       #7A5C20;
+  --text3:       #B8923A;
+  --border:      rgba(184,134,11,0.2);
+  --border2:     rgba(184,134,11,0.35);
+  --card-bg:     #FFFFFF;
+  --card-border: rgba(184,134,11,0.15);
+  --card-hover:  rgba(184,134,11,0.4);
+  --pill-bg:     #F7F0DC;
+  --header-bg:   #2C1A00;
+  --hero-bg:     #2C1A00;
+  --hero-card:   linear-gradient(135deg,#3D2408 0%,#5C3510 100%);
+  --sheet-bg:    #FFFDF7;
+  --tab-bg:      rgba(255,255,255,0.12);
+  --tab-color:   rgba(255,255,255,0.6);
+  --img-bg:      #F7F0DC;
+  --sec-line:    rgba(184,134,11,0.2);
+  --row-border:  rgba(184,134,11,0.1);
+  --red:         #C0392B;
+  --shadow:      0 4px 20px rgba(184,134,11,0.18);
+}
+
+/* ══════════════════════════════════════════════
+   TRANSITION — tema o'zgarganda smooth
+══════════════════════════════════════════════ */
+*, *::before, *::after {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+/* transition-ni animate kerak bo'lmagan narsalardan olib tash */
+img, svg, .card-img img, .ornament { transition: none !important; }
+
+/* ══════════════════════════════════════════════
+   BASE
+══════════════════════════════════════════════ */
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { background: var(--bg); }
+body {
+  font-family: 'Raleway', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+  overflow-x: hidden;
+}
+::-webkit-scrollbar { display: none; }
+
+/* ══════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════ */
+.header {
+  background: var(--header-bg);
+  position: sticky; top: 0; z-index: 100;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px 0;
+}
+
+.top-bar {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-img {
+  width: 40px; height: 40px; border-radius: 10px;
+  object-fit: cover; border: 1.5px solid var(--gold3);
+}
+.logo-fallback {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--gold3), var(--gold));
+  display: none; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.logo-name {
+  font-family: 'Cinzel', serif;
+  font-size: 17px; font-weight: 700;
+  color: var(--gold); letter-spacing: 2px; line-height: 1;
+  text-shadow: 0 0 20px var(--gold-glow);
+}
+.logo-sub {
+  font-size: 9px; font-weight: 500;
+  color: var(--text2); letter-spacing: 2.5px;
+  text-transform: uppercase; margin-top: 2px;
+}
+
+/* Header right — tema + cart */
+.header-right { display: flex; align-items: center; gap: 8px; }
+
+/* Tema toggle tugmasi */
+.theme-toggle {
+  width: 38px; height: 38px;
+  background: var(--pill-bg);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; cursor: pointer;
+  transition: all 0.2s !important;
+  flex-shrink: 0;
+}
+.theme-toggle:active { transform: scale(0.9) rotate(20deg); }
+
+/* Cart pill */
+.cart-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--pill-bg);
+  border: 1px solid var(--border2);
+  border-radius: 22px;
+  padding: 8px 14px; cursor: pointer;
+  transition: border-color 0.15s !important;
+}
+.cart-pill:active { border-color: var(--gold); transform: scale(0.96); }
+.cart-pill-icon { font-size: 16px; }
+.cart-pill-count {
+  background: var(--gold);
+  color: var(--bg);
+  font-size: 10px; font-weight: 700;
+  width: 18px; height: 18px; border-radius: 50%;
+  display: none; align-items: center; justify-content: center;
+}
+.cart-pill-count.show { display: flex; }
+.cart-pill-label {
+  font-size: 11px; font-weight: 600;
+  color: var(--text2); letter-spacing: 0.5px;
+}
+
+/* Category tabs */
+.cats {
+  display: flex; gap: 6px;
+  overflow-x: auto; padding-bottom: 12px;
+  scrollbar-width: none;
+}
+.cat-tab {
+  flex-shrink: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.8px; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 20px;
+  border: 1px solid var(--tab-bg);
+  background: var(--tab-bg);
+  color: var(--tab-color);
+  cursor: pointer; white-space: nowrap;
+  transition: all 0.2s !important;
+}
+.cat-tab.active {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ */
+.hero {
+  background: var(--hero-bg);
+  padding: 16px 16px 20px;
+}
+.hero-card {
+  background: var(--hero-card);
+  border-radius: 18px;
+  padding: 18px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; overflow: hidden;
+  border: 1px solid var(--border2);
+}
+.hero-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, var(--gold-dim) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-line {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.hero-badge {
+  display: inline-block; background: var(--red); color: white;
+  font-size: 9px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; padding: 3px 10px; border-radius: 4px;
+  margin-bottom: 8px;
+}
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: 22px; font-weight: 700; color: var(--gold);
+  line-height: 1.1; margin-bottom: 4px;
+  text-shadow: 0 2px 20px var(--gold-glow);
+}
+.hero-price { font-size: 13px; font-weight: 600; color: var(--text2); }
+.hero-media img {
+  width: 100px; height: 80px; object-fit: cover;
+  border-radius: 12px; border: 1px solid var(--border2);
+}
+.hero-emoji { font-size: 64px; line-height: 1; }
+
+/* ══════════════════════════════════════════════
+   CONTENT / SECTIONS
+══════════════════════════════════════════════ */
+.content { padding: 20px 16px 0; }
+.cat-section { margin-bottom: 32px; scroll-margin-top: 130px; }
+
+.sec-head {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+}
+.sec-title {
+  font-family: 'Cinzel', serif;
+  font-size: 15px; font-weight: 600; color: var(--gold);
+  letter-spacing: 1.5px; text-transform: uppercase; flex-shrink: 0;
+}
+.sec-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--sec-line), transparent);
+}
+
+/* ══════════════════════════════════════════════
+   ITEM CARD
+══════════════════════════════════════════════ */
+.items-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.item-card {
+  background: var(--card-bg);
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--card-border);
+  position: relative;
+  cursor: pointer;
+  /* transform faqat tap uchun — alohida override */
+}
+.item-card:active { transform: scale(0.97) !important; }
+.item-card.in-cart {
+  border-color: var(--card-hover);
+  box-shadow: 0 0 16px var(--gold-dim);
+}
+
+/* Oltin burchak SVG ornamentlar */
+.card-orn {
+  position: absolute; z-index: 2; pointer-events: none;
+  width: 14px; height: 14px; opacity: 0;
+}
+.item-card.in-cart .card-orn { opacity: 1; }
+.co-tl { top: 3px; left: 3px; }
+.co-tr { top: 3px; right: 3px; transform: scaleX(-1); }
+.co-bl { bottom: 3px; left: 3px; transform: scaleY(-1); }
+.co-br { bottom: 3px; right: 3px; transform: scale(-1); }
+
+/* Card image — bosish = savatga */
+.card-img {
+  width: 100%; aspect-ratio: 4/3;
+  background: var(--img-bg);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+  user-select: none;
+}
+.card-img img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  pointer-events: none;
+}
+.card-img-emoji { font-size: 48px; pointer-events: none; }
+.card-img::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+  background: linear-gradient(transparent, rgba(0,0,0,0.45));
+  pointer-events: none;
+}
+
+/* + ikona rasm ustida (hover/tap hint) */
+.card-img-plus {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.2s !important;
+  pointer-events: none;
+}
+.card-img-plus span {
+  width: 40px; height: 40px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 300; color: var(--bg);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.item-card:not(.in-cart) .card-img:active .card-img-plus { opacity: 1; }
+
+/* NEW badge */
+.new-badge {
+  position: absolute; top: 8px; left: 8px; z-index: 3;
+  background: var(--red); color: white;
+  font-size: 8px; font-weight: 700; letter-spacing: 1px;
+  padding: 2px 7px; border-radius: 3px; text-transform: uppercase;
+}
+
+/* Qty badge (rasm ichida) */
+.qty-badge {
+  position: absolute; bottom: 8px; right: 8px; z-index: 3;
+  background: var(--gold); color: var(--bg);
+  font-size: 10px; font-weight: 800;
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: scale(0.3);
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1) !important;
+}
+.item-card.in-cart .qty-badge { opacity: 1; transform: scale(1); }
+
+/* Card body */
+.card-body { padding: 9px 10px 11px; }
+.card-name {
+  font-size: 11px; font-weight: 600; color: var(--text);
+  line-height: 1.35; margin-bottom: 8px; letter-spacing: 0.2px;
+}
+.card-footer {
+  display: flex; align-items: center; justify-content: space-between; gap: 4px;
+}
+.card-price {
+  font-family: 'Cinzel', serif;
+  font-size: 12px; font-weight: 600; color: var(--gold); white-space: nowrap;
+}
+
+/* Qty control (pastda, faqat in-cart) */
+.qty-ctrl { display: none; align-items: center; gap: 3px; }
+.qty-ctrl.show { display: flex; }
+.q-btn {
+  width: 27px; height: 27px;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: 8px; color: var(--gold);
+  font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.q-btn:active { background: var(--gold-dim); transform: scale(0.9); }
+.q-num {
+  font-family: 'Cinzel', serif;
+  font-size: 13px; font-weight: 600; color: var(--text);
+  min-width: 18px; text-align: center;
+}
+
+/* ══════════════════════════════════════════════
+   CART BAR
+══════════════════════════════════════════════ */
+.cart-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  transform: translateY(110%);
+  transition: transform 0.35s cubic-bezier(0.34,1.1,0.64,1) !important;
+}
+.cart-bar.show { transform: translateY(0); }
+
+.cart-btn {
+  width: 100%; height: 56px;
+  background: linear-gradient(135deg, var(--gold3), var(--gold), var(--gold2));
+  border: none; border-radius: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 18px; cursor: pointer;
+  box-shadow: var(--shadow);
+}
+.cart-btn:active { transform: scale(0.98) !important; }
+.cb-l { display: flex; align-items: center; gap: 10px; }
+.cb-count {
+  background: rgba(0,0,0,0.2); color: var(--bg);
+  font-size: 12px; font-weight: 800;
+  padding: 3px 10px; border-radius: 8px;
+}
+.cb-label {
+  font-family: 'Cinzel', serif;
+  font-size: 14px; font-weight: 600;
+  color: var(--bg); letter-spacing: 1px;
+}
+.cb-total {
+  font-family: 'Cinzel', serif;
+  font-size: 14px; font-weight: 700; color: var(--bg);
+}
+
+/* ══════════════════════════════════════════════
+   OVERLAY + SHEET
+══════════════════════════════════════════════ */
+.overlay {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(0,0,0,0.7);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s !important;
+  backdrop-filter: blur(4px);
+}
+.overlay.show { opacity: 1; pointer-events: all; }
+
+.sheet {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
+  background: var(--sheet-bg);
+  border-radius: 24px 24px 0 0;
+  border-top: 1px solid var(--border2);
+  max-height: 82vh;
+  display: flex; flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.34,1.1,0.64,1) !important;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.sheet.open { transform: translateY(0); }
+
+.sheet-drag {
+  width: 40px; height: 3px;
+  background: var(--border2); border-radius: 2px;
+  margin: 12px auto 0; flex-shrink: 0;
+}
+.sheet-head {
+  padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.sheet-title {
+  font-family: 'Cinzel', serif;
+  font-size: 17px; font-weight: 600; color: var(--gold); letter-spacing: 1.5px;
+}
+.sheet-x {
+  width: 30px; height: 30px;
+  background: var(--bg4); border: 1px solid var(--border);
+  border-radius: 50%; color: var(--text2); font-size: 14px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.sheet-x:active { transform: scale(0.9); }
+
+.sheet-body { flex: 1; overflow-y: auto; padding: 6px 0; }
+
+.sheet-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 20px;
+  border-bottom: 1px solid var(--row-border);
+}
+.s-img {
+  width: 50px; height: 50px; border-radius: 12px;
+  background: var(--img-bg); border: 1px solid var(--border);
+  overflow: hidden; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.s-img img { width: 100%; height: 100%; object-fit: cover; }
+.s-img span { font-size: 26px; }
+.s-info { flex: 1; min-width: 0; }
+.s-name {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px;
+}
+.s-price { font-family: 'Cinzel', serif; font-size: 11px; color: var(--gold); }
+.s-ctrl { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+.sb {
+  width: 28px; height: 28px;
+  background: var(--bg4); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--gold); font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.sb:active { background: var(--gold-dim); transform: scale(0.9); }
+.sb.plus { background: var(--gold-dim); border-color: var(--gold); }
+.s-qty {
+  font-family: 'Cinzel', serif;
+  font-size: 14px; font-weight: 600; color: var(--text);
+  min-width: 20px; text-align: center;
+}
+
+.empty-cart { text-align: center; padding: 48px 20px; }
+.empty-icon { font-size: 44px; margin-bottom: 12px; }
+.empty-txt { font-size: 13px; font-weight: 500; color: var(--text2); letter-spacing: 0.5px; }
+
+.sheet-foot {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border); flex-shrink: 0;
+}
+.s-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.s-total-label { font-size: 13px; color: var(--text2); font-weight: 500; }
+.s-total-val {
+  font-family: 'Cinzel', serif;
+  font-size: 18px; font-weight: 700; color: var(--gold);
+}
+.checkout-btn {
+  width: 100%; height: 54px;
+  background: linear-gradient(135deg, var(--gold3), var(--gold), var(--gold2));
+  color: var(--bg); border: none; border-radius: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 1.5px;
+  cursor: pointer; box-shadow: var(--shadow);
+}
+.checkout-btn:active { transform: scale(0.98) !important; }
+
+/* ══════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════ */
+.toast {
+  position: fixed; top: 80px; left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  color: var(--gold);
+  padding: 9px 20px; border-radius: 22px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+  opacity: 0; pointer-events: none; z-index: 999;
+  transition: all 0.25s !important; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="top-bar">
+    <div class="logo">
+      <img class="logo-img" src="images/logo.png" alt="logo"
+           onerror="this.style.display='none';document.getElementById('lf').style.display='flex'">
+      <div class="logo-fallback" id="lf">🍔</div>
+      <div>
+        <div class="logo-name">BEK BURGER</div>
+        <div class="logo-sub">Premium Fast Food</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <!-- Tema toggle -->
+      <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Temani o'zgartirish">
+        🌙
+      </button>
+      <!-- Cart -->
+      <div class="cart-pill" onclick="openCart()">
+        <span class="cart-pill-icon">🛒</span>
+        <span class="cart-pill-count" id="pillCount">0</span>
+        <span class="cart-pill-label">Savat</span>
+      </div>
+    </div>
+  </div>
+  <div class="cats" id="catTabs"></div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-card">
+    <div>
+      <div class="hero-badge">🔥 Yangi</div>
+      <div class="hero-title">Iskandar<br>Kabob</div>
+      <div class="hero-price">40 000 so'm</div>
+    </div>
+    <div class="hero-media">
+      <img src="images/iskandar_kabob.jpg" alt=""
+           onerror="this.style.display='none';document.getElementById('he').style.display='block'">
+      <span class="hero-emoji" id="he" style="display:none">🍖</span>
+    </div>
+    <div class="hero-line"></div>
+  </div>
+</div>
+
+<!-- MENU -->
+<main class="content" id="menuContent"></main>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✦ Savatga qo'shildi</div>
+
+<!-- CART BAR -->
+<div class="cart-bar" id="cartBar">
+  <button class="cart-btn" onclick="openCart()">
+    <div class="cb-l">
+      <span class="cb-count" id="cbCount">0 ta</span>
+      <span class="cb-label">Savatni Ko'rish</span>
+    </div>
+    <span class="cb-total" id="cbTotal">0 so'm</span>
+  </button>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<!-- SHEET -->
+<div class="sheet" id="sheet">
+  <div class="sheet-drag"></div>
+  <div class="sheet-head">
+    <span class="sheet-title">Savat</span>
+    <button class="sheet-x" onclick="closeCart()">✕</button>
+  </div>
+  <div class="sheet-body" id="sheetBody"></div>
+  <div class="sheet-foot">
+    <div class="s-total">
+      <span class="s-total-label">Jami to'lov:</span>
+      <span class="s-total-val" id="sheetTotal">0 so'm</span>
+    </div>
+    <button class="checkout-btn" onclick="checkout()">BUYURTMA BERISH</button>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────
+const CATS = [
+  { key:"lavash",    name:"Lavash",         emoji:"🥙",
+    items:[
+      {key:"lavash",            name:"Lavash",            price:32000},
+      {key:"qalampirli_lavash", name:"Qalampirli Lavash", price:32000},
+      {key:"tandir_lavash",     name:"Tandir Lavash",     price:35000, isNew:true},
+      {key:"pishloqli_lavash",  name:"Pishloqli Lavash",  price:35000},
+    ]},
+  { key:"burgers",   name:"Burgers",        emoji:"🍔",
+    items:[
+      {key:"gam_burger",      name:"Gam Burger",      price:25000},
+      {key:"big_gam_burger",  name:"Big Gam Burger",  price:28000},
+      {key:"chiz_burger",     name:"Chiz Burger",     price:27000},
+      {key:"big_chiz_burger", name:"Big Chiz Burger", price:30000},
+    ]},
+  { key:"hotdogs",   name:"Hot-Dogs",       emoji:"🌭",
+    items:[
+      {key:"hotdog",          name:"Hot-Dog",          price:15000},
+      {key:"kandiski_hotdog", name:"Kandiski Hot-Dog", price:20000},
+      {key:"shashlik_hotdog", name:"Shashlik Hot-Dog", price:35000},
+      {key:"xaggi",           name:"Xaggi",            price:32000, isNew:true},
+    ]},
+  { key:"doner",     name:"Doner & Kabob",  emoji:"🫔",
+    items:[
+      {key:"doner",           name:"Doner",           price:32000},
+      {key:"pishloqli_doner", name:"Pishloqli Doner", price:34000},
+      {key:"pita",            name:"Pita",            price:32000},
+      {key:"iskandar_kabob",  name:"Iskandar Kabob",  price:40000},
+    ]},
+  { key:"signature", name:"Signature",      emoji:"👨‍🍳",
+    items:[
+      {key:"sendvich_klap", name:"Sendvich Klap", price:40000},
+      {key:"kartoshka_fri", name:"Kartoshka Fri", price:15000},
+    ]},
+  { key:"salads",    name:"Salatlar",       emoji:"🥗",
+    items:[
+      {key:"chiroqchi",       name:"Chiroqchi",       price:20000},
+      {key:"sveji",           name:"Sveji",           price:20000},
+      {key:"achiq_chuchuk",   name:"Achiq Chuchuk",   price:20000},
+      {key:"tuzlangan",       name:"Tuzlangan",       price:20000},
+      {key:"sezr",            name:"Sezr",            price:25000},
+      {key:"trup_chakka",     name:"Trup Chakka",     price:20000},
+      {key:"mujeskoy_kapriz", name:"Mujeskoy Kapriz", price:25000},
+      {key:"chakka",          name:"Chakka",          price:15000},
+      {key:"alivie",          name:"Alivie",          price:25000},
+    ]},
+  { key:"desserts",  name:"Desertlar",      emoji:"🍰",
+    items:[
+      {key:"napoleon",        name:"Napoleon Tort",       price:25000},
+      {key:"kremli_tort",     name:"Kremli Tort",         price:25000},
+      {key:"shokoladli_tort", name:"Shokoladli Tort",     price:25000},
+      {key:"qizil_tort",      name:"Qizil Baxmal Tort",   price:25000},
+    ]},
+  { key:"oshbolsin",  name:"Osh Bo'lsin",    emoji:"🍽️",
+    items:[
+      {key:"qiyma",               name:"Qiyma Kabob",           price:80000},
+      {key:"kusochni",            name:"Kusochni Kabob",         price:100000},
+      {key:"kavkaz_tovuq",        name:"Kavkaz Tovuq (1 six)",   price:40000},
+      {key:"olot_somsa",          name:"Olot Somsa",             price:9000},
+      {key:"tandir_somsa_murch",  name:"Tandir Somsa (murchsiz)",price:17000},
+      {key:"tandir_somsa_murchli",name:"Tandir Somsa (murchli)", price:17000},
+      {key:"shurvo",              name:"Shurvo (1 pors)",        price:20000},
+      {key:"chuchvara",           name:"Chuchvara (1 pors)",     price:20000},
+      {key:"kfc_fele",            name:"KFC Fele",               price:70000},
+      {key:"kfc_oddiy",           name:"KFC Oddiy",              price:50000},
+      {key:"kok_choy",            name:"Ko'k Choy",              price:5000},
+      {key:"qora_choy",           name:"Qora Choy",              price:5000},
+      {key:"limon_choy",          name:"Limon Choy",             price:15000},
+    ]},
+];
+
+const EM = {
+  lavash:"🥙",qalampirli_lavash:"🥙",tandir_lavash:"🥙",pishloqli_lavash:"🥙",
+  gam_burger:"🍔",big_gam_burger:"🍔",chiz_burger:"🍔",big_chiz_burger:"🍔",
+  hotdog:"🌭",kandiski_hotdog:"🌭",shashlik_hotdog:"🌭",xaggi:"🌭",
+  doner:"🫔",pishloqli_doner:"🫔",pita:"🫓",iskandar_kabob:"🍖",
+  sendvich_klap:"🥪",kartoshka_fri:"🍟",
+  chiroqchi:"🥗",sveji:"🥗",achiq_chuchuk:"🥗",tuzlangan:"🥗",
+  sezr:"🥗",trup_chakka:"🥗",mujeskoy_kapriz:"🥗",chakka:"🥗",alivie:"🥗",
+  desert1:"🍰",desert2:"🍫",desert3:"🍯",desert4:"🎂",
+  napoleon:"🎂",kremli_tort:"🍰",shokoladli_tort:"🍫",qizil_tort:"🎂",
+  qiyma:"🍢",kusochni:"🍡",kavkaz_tovuq:"🍗",
+  olot_somsa:"🥟",tandir_somsa_murch:"🥟",tandir_somsa_murchli:"🥟",
+  shurvo:"🍲",chuchvara:"🥟",kfc_fele:"🍗",kfc_oddiy:"🍗",
+  kok_choy:"🍵",qora_choy:"☕",limon_choy:"🍋",
+};
+
+// ── TEMA ──────────────────────────────────────────────────────────────
+let currentTheme = localStorage.getItem('bb_theme') || 'dark';
+
+function applyTheme(t) {
+  currentTheme = t;
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('themeBtn').textContent = t === 'dark' ? '🌙' : '☀️';
+  try { localStorage.setItem('bb_theme', t); } catch(e){}
+}
+
+function toggleTheme() {
+  applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  haptic('light');
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────
+const cart = {};
+const fmt   = n => n.toLocaleString('uz-UZ') + " so'm";
+const qty   = k => cart[k] || 0;
+const count = () => Object.values(cart).reduce((s,v) => s+v, 0);
+const total = () => {
+  let t = 0;
+  CATS.forEach(c => c.items.forEach(i => { t += i.price * qty(i.key); }));
+  return t;
+};
+
+// ── BUILD MENU ────────────────────────────────────────────────────────
+function build() {
+  const tabsEl = document.getElementById('catTabs');
+  const cont   = document.getElementById('menuContent');
+
+  CATS.forEach((cat, i) => {
+    const tab = document.createElement('button');
+    tab.className = 'cat-tab' + (i===0 ? ' active' : '');
+    tab.dataset.cat = cat.key;
+    tab.textContent = cat.emoji + ' ' + cat.name;
+    tab.onclick = () => goSec(cat.key);
+    tabsEl.appendChild(tab);
+
+    const sec = document.createElement('section');
+    sec.className = 'cat-section';
+    sec.id = 'sec-' + cat.key;
+    sec.innerHTML = `<div class="sec-head">
+      <span class="sec-title">${cat.emoji} ${cat.name}</span>
+      <div class="sec-line"></div>
+    </div>`;
+
+    const grid = document.createElement('div');
+    grid.className = 'items-grid';
+    cat.items.forEach(item => grid.appendChild(mkCard(item)));
+    sec.appendChild(grid);
+    cont.appendChild(sec);
+  });
+}
+
+const ornSvg = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M2 2L8 2L2 8Z" fill="#D4AF37"/>
+  <path d="M2 2L2 10" stroke="#D4AF37" stroke-width="0.8" opacity="0.6"/>
+  <path d="M2 2L10 2" stroke="#D4AF37" stroke-width="0.8" opacity="0.6"/>
+</svg>`;
+
+function mkCard(item) {
+  const d = document.createElement('div');
+  d.className = 'item-card';
+  d.id = 'ic-' + item.key;
+  const em = EM[item.key] || '🍽️';
+
+  d.innerHTML = `
+    <svg class="card-orn co-tl" viewBox="0 0 24 24"><path d="M2 2L8 2L2 8Z" fill="var(--gold)"/><path d="M2 2L2 10" stroke="var(--gold)" stroke-width="0.8" opacity="0.6"/><path d="M2 2L10 2" stroke="var(--gold)" stroke-width="0.8" opacity="0.6"/></svg>
+    <svg class="card-orn co-tr" viewBox="0 0 24 24"><path d="M2 2L8 2L2 8Z" fill="var(--gold)"/><path d="M2 2L2 10" stroke="var(--gold)" stroke-width="0.8" opacity="0.6"/><path d="M2 2L10 2" stroke="var(--gold)" stroke-width="0.8" opacity="0.6"/></svg>
+    <svg class="card-orn co-bl" viewBox="0 0 24 24"><path d="M2 2L8 2L2 8Z" fill="var(--gold)"/><path d="M2 2L2 10" stroke="var(--gold)" stroke-width="0.8" opacity="0.6"/><path d="M2 2L10 2" stroke="var(--gold)" stroke-width="0.8" opacity="0.6"/></svg>
+    <svg class="card-orn co-br" viewBox="0 0 24 24"><path d="M2 2L8 2L2 8Z" fill="var(--gold)"/><path d="M2 2L2 10" stroke="var(--gold)" stroke-width="0.8" opacity="0.6"/><path d="M2 2L10 2" stroke="var(--gold)" stroke-width="0.8" opacity="0.6"/></svg>
+
+    ${item.isNew ? '<div class="new-badge">NEW!</div>' : ''}
+    <div class="qty-badge" id="qb-${item.key}">0</div>
+
+    <div class="card-img" id="cimg-${item.key}">
+      <img src="images/${item.key}.jpg" alt="${item.name}"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <span class="card-img-emoji" style="display:none">${em}</span>
+      <div class="card-img-plus"><span>+</span></div>
+    </div>
+
+    <div class="card-body">
+      <div class="card-name">${item.name}</div>
+      <div class="card-footer">
+        <div class="card-price">${fmt(item.price)}</div>
+        <div class="qty-ctrl" id="qc-${item.key}">
+          <button class="q-btn" onclick="dec('${item.key}')">−</button>
+          <span class="q-num" id="qn-${item.key}">1</span>
+          <button class="q-btn" onclick="add('${item.key}')">+</button>
+        </div>
+      </div>
+    </div>`;
+
+  // Rasm bosish = savatga qo'shish
+  d.querySelector('.card-img').addEventListener('click', () => add(item.key));
+
+  return d;
+}
+
+// ── ACTIONS ───────────────────────────────────────────────────────────
+function add(k) {
+  cart[k] = (cart[k]||0) + 1;
+  syncCard(k); syncBar();
+  showToast(); haptic('light');
+}
+function dec(k) {
+  if (!cart[k]) return;
+  cart[k]--;
+  if (!cart[k]) delete cart[k];
+  syncCard(k); syncBar(); haptic('light');
+}
+
+function syncCard(k) {
+  const q  = qty(k);
+  const ic = document.getElementById('ic-'+k);
+  const qc = document.getElementById('qc-'+k);
+  const qn = document.getElementById('qn-'+k);
+  const qb = document.getElementById('qb-'+k);
+  if (q > 0) {
+    qc.classList.add('show');
+    qn.textContent = q; qb.textContent = q;
+    ic.classList.add('in-cart');
+  } else {
+    qc.classList.remove('show');
+    ic.classList.remove('in-cart');
+  }
+}
+
+function syncBar() {
+  const c = count(); const t = total();
+  const bar  = document.getElementById('cartBar');
+  const pill = document.getElementById('pillCount');
+  document.getElementById('cbCount').textContent = c + ' ta';
+  document.getElementById('cbTotal').textContent = fmt(t);
+  pill.textContent = c;
+  if (c > 0) { bar.classList.add('show'); pill.classList.add('show'); }
+  else       { bar.classList.remove('show'); pill.classList.remove('show'); }
+}
+
+// ── SHEET ─────────────────────────────────────────────────────────────
+function openCart() {
+  renderSheet();
+  document.getElementById('sheet').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+  haptic('medium');
+}
+function closeCart() {
+  document.getElementById('sheet').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+function renderSheet() {
+  const body = document.getElementById('sheetBody');
+  if (!count()) {
+    body.innerHTML = `<div class="empty-cart">
+      <div class="empty-icon">🛒</div>
+      <div class="empty-txt">Savat bo'sh</div>
+    </div>`;
+    document.getElementById('sheetTotal').textContent = fmt(0);
+    return;
+  }
+  body.innerHTML = ''; let t = 0;
+  CATS.forEach(cat => cat.items.forEach(item => {
+    if (!cart[item.key]) return;
+    const q = cart[item.key]; const sub = item.price*q; t += sub;
+    const em = EM[item.key]||'🍽️';
+    const row = document.createElement('div');
+    row.className = 'sheet-row';
+    row.innerHTML = `
+      <div class="s-img">
+        <img src="images/${item.key}.jpg" alt=""
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <span style="display:none">${em}</span>
+      </div>
+      <div class="s-info">
+        <div class="s-name">${item.name}</div>
+        <div class="s-price">${fmt(item.price)} × ${q} = ${fmt(sub)}</div>
+      </div>
+      <div class="s-ctrl">
+        <button class="sb" onclick="sDec('${item.key}')">−</button>
+        <span class="s-qty">${q}</span>
+        <button class="sb plus" onclick="sInc('${item.key}')">+</button>
+      </div>`;
+    body.appendChild(row);
+  }));
+  document.getElementById('sheetTotal').textContent = fmt(t);
+}
+
+function sInc(k) { add(k); renderSheet(); }
+function sDec(k) { dec(k); renderSheet(); if (!count()) closeCart(); }
+
+// ── CHECKOUT ──────────────────────────────────────────────────────────
+function checkout() {
+  if (!count()) return;
+  const items = Object.entries(cart).map(([k,q]) => ({item_key:k, quantity:q}));
+  const data  = JSON.stringify({action:"checkout", items});
+  haptic('heavy');
+  try { Telegram.WebApp.sendData(data); }
+  catch(e) { console.log('TEST:', JSON.parse(data)); alert('Test rejim'); }
+}
+
+// ── TABS / OBSERVER ───────────────────────────────────────────────────
+function goSec(key) {
+  document.getElementById('sec-'+key)?.scrollIntoView({behavior:'smooth',block:'start'});
+  setTab(key);
+}
+function setTab(key) {
+  document.querySelectorAll('.cat-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.cat===key));
+  document.querySelector(`.cat-tab[data-cat="${key}"]`)
+    ?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+}
+function setupObs() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) setTab(e.target.id.replace('sec-','')); });
+  }, {rootMargin:'-20% 0px -65% 0px'});
+  document.querySelectorAll('.cat-section').forEach(s => io.observe(s));
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────
+let toastT;
+function showToast() {
+  const el = document.getElementById('toast');
+  el.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => el.classList.remove('show'), 1500);
+}
+function haptic(s) {
+  try { Telegram.WebApp.HapticFeedback.impactOccurred(s); } catch(e){}
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  try { Telegram.WebApp.ready(); Telegram.WebApp.expand(); } catch(e){}
+  applyTheme(currentTheme);
+
+  // prices.json dan narxlarni yukla (cache o'tkazib yuborish uchun ?v=...)
+  try {
+    const res = await fetch('prices.json?v=' + Date.now());
+    if (res.ok) {
+      const prices = await res.json();
+      CATS.forEach(cat => cat.items.forEach(item => {
+        if (prices[item.key] !== undefined) {
+          item.price = prices[item.key];
+        }
+      }));
+    }
+  } catch(e) {
+    console.warn('prices.json yuklanmadi, standart narxlar ishlatiladi:', e);
+  }
+
+  build();
+  setupObs();
+});
+</script>
+</body>
+</html>

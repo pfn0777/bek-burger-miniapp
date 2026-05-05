@@ -1,0 +1,53 @@
+{
+  "lavash":                 32000,
+  "qalampirli_lavash":      32000,
+  "tandir_lavash":          35000,
+  "pishloqli_lavash":       35000,
+
+  "gam_burger":             25000,
+  "big_gam_burger":         28000,
+  "chiz_burger":            27000,
+  "big_chiz_burger":        30000,
+
+  "hotdog":                 15000,
+  "kandiski_hotdog":        20000,
+  "shashlik_hotdog":        35000,
+  "xaggi":                  32000,
+
+  "doner":                  32000,
+  "pishloqli_doner":        34000,
+  "pita":                   32000,
+  "iskandar_kabob":         40000,
+
+  "sendvich_klap":          40000,
+  "kartoshka_fri":          15000,
+
+  "chiroqchi":              20000,
+  "sveji":                  20000,
+  "achiq_chuchuk":          20000,
+  "tuzlangan":              20000,
+  "sezr":                   25000,
+  "trup_chakka":            20000,
+  "mujeskoy_kapriz":        25000,
+  "chakka":                 15000,
+  "alivie":                 25000,
+
+  "napoleon":               25000,
+  "kremli_tort":            25000,
+  "shokoladli_tort":        25000,
+  "qizil_tort":             25000,
+
+  "qiyma":                  80000,
+  "kusochni":              100000,
+  "kavkaz_tovuq":           40000,
+  "olot_somsa":              9000,
+  "tandir_somsa_murch":     17000,
+  "tandir_somsa_murchli":   17000,
+  "shurvo":                 20000,
+  "chuchvara":              20000,
+  "kfc_fele":               70000,
+  "kfc_oddiy":              50000,
+  "kok_choy":                5000,
+  "qora_choy":               5000,
+  "limon_choy":             15000
+}
